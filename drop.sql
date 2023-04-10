@@ -1,4 +1,4 @@
-alter session set "_ORACLE_SCRIPT"=true;
+alter session set "_ORACLE_SCRIPT"= true;
 
 BEGIN
     EXECUTE IMMEDIATE 'DROP TABLE Projet';
