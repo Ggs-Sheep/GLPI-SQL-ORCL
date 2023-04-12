@@ -1,19 +1,29 @@
-alter session set "_ORACLE_SCRIPT"= true;
+alter session set "_ORACLE_SCRIPT"=true;
+-- création tablespace où sont stockées les données des sites Cergy et Pau
+CREATE TABLESPACE stockageCergy
+    DATAFILE 'stockageCergy_data.dbf'
+    SIZE 100m;
 
-CREATE USER Cergy IDENTIFIED BY password;
-GRANT CONNECT, RESOURCE, MANAGE SCHEDULER, CREATE SESSION, CREATE ANY JOB,
-    CREATE VIEW TO Cergy WITH ADMIN OPTION;
-CREATE TABLESPACE Cergy_TS
-    DATAFILE 'cergy_tspace.dbf'
-    SIZE 50 m;
-ALTER USER Cergy DEFAULT TABLESPACE Cergy_TS;
-ALTER USER Cergy QUOTA UNLIMITED ON Cergy_TS;
+CREATE TABLESPACE stockagePau
+    DATAFILE 'stockagePau_data.dbf'
+    SIZE 100m;
 
-CREATE USER Pau IDENTIFIED BY password;
-GRANT CONNECT, RESOURCE, MANAGE SCHEDULER, CREATE SESSION, CREATE ANY JOB,
-    CREATE VIEW TO Pau WITH ADMIN OPTION;
-CREATE TABLESPACE Pau_TS
-    DATAFILE 'pau_tspace.dbf'
-    SIZE 50 m;
-ALTER USER Pau DEFAULT TABLESPACE Pau_TS;
-ALTER USER Pau QUOTA UNLIMITED ON Pau_TS;
+-- création des sites Cergy et Pau : émulé par 2 utilisateurs
+CREATE USER Cergy
+    IDENTIFIED BY Cergy
+    DEFAULT TABLESPACE stockageCergy;
+
+CREATE USER Pau
+    IDENTIFIED BY Pau
+    DEFAULT TABLESPACE stockagePau;
+
+CREATE ROLE super_admin;
+GRANT CREATE DATABASE LINK, CREATE SEQUENCE, CREATE TRIGGER, CREATE PROCEDURE, CREATE SESSION, CREATE VIEW, DROP USER, DROP TABLESPACE, CREATE ANY TABLE TO super_admin;
+GRANT super_admin TO Cergy;
+
+CREATE ROLE local_admin;
+GRANT CREATE SEQUENCE, CREATE TRIGGER, CREATE PROCEDURE, CREATE SESSION, CREATE VIEW, CREATE ANY TABLE TO local_admin;
+GRANT local_admin TO Pau;
+
+ALTER USER Cergy quota unlimited on stockageCergy;
+ALTER USER Pau quota unlimited on stockagePau;
