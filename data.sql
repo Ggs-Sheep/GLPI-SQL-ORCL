@@ -57,15 +57,29 @@ BEGIN
 END;
 /
 
-DECLARE
-  v_nom_logiciel VARCHAR2(100);
+INSERT INTO Logiciel (id_logiciel, nom_logiciel, type_logiciel, version, date_achat, date_fin_support)
+VALUES (1, 'Microsoft Word', 'Bureautique', '1.0.0', TO_DATE('2023-04-13', 'yyyy-mm-dd'), TO_DATE('2030-04-13', 'yyyy-mm-dd'));
+
+INSERT INTO Logiciel (id_logiciel, nom_logiciel, type_logiciel, version, date_achat, date_fin_support)
+VALUES (2, 'Visual Studio Code', 'Programmation', '2.1.0', TO_DATE('2022-01-01', 'yyyy-mm-dd'), TO_DATE('2032-01-01', 'yyyy-mm-dd'));
+
+INSERT INTO Logiciel (id_logiciel, nom_logiciel, type_logiciel, version, date_achat, date_fin_support)
+VALUES (3, 'Paint 3D', 'Graphisme', '3.5.2', TO_DATE('2022-03-15', 'yyyy-mm-dd'), TO_DATE('2030-03-15', 'yyyy-mm-dd'));
+
+
+/*DECLARE
+  v_nom_logiciel VARCHAR2(1000);
   v_type_logiciel VARCHAR2(100);
   v_version VARCHAR2(100);
   v_date_achat DATE;
   v_date_fin_support DATE;
 BEGIN
   FOR i IN 1..50 LOOP
-    v_nom_logiciel := dbms_random.string('A', 100) || ' ' || dbms_random.string('A', 100);
+    v_nom_logiciel := CASE dbms_random.value(1, 3)
+                          WHEN 1 THEN 'Microsoft Word'
+                          WHEN 2 THEN 'Visual Studio Code'
+                          ELSE 'Paint 3D'
+                       END;
     v_type_logiciel := CASE dbms_random.value(1, 3)
                           WHEN 1 THEN 'Bureautique'
                           WHEN 2 THEN 'Graphisme'
@@ -79,7 +93,7 @@ BEGIN
     VALUES (i, v_nom_logiciel, v_type_logiciel, v_version, v_date_achat, v_date_fin_support);
   END LOOP;
 END;
-/
+/*/
 
 DECLARE
   v_titre            VARCHAR2(100);
@@ -152,8 +166,8 @@ END;
 
 BEGIN
     FOR i IN 1..50 LOOP
-        INSERT INTO CERGY.UTILISATEUR_LOGICIEL (id_utilisateur, ID_LOGICIEL)
-        VALUES (TRUNC(DBMS_RANDOM.VALUE(1,50)), TRUNC(DBMS_RANDOM.VALUE(1,50)));
+        INSERT INTO UTILISATEUR_LOGICIEL (id_utilisateur, ID_LOGICIEL)
+        VALUES (TRUNC(DBMS_RANDOM.VALUE(1,50)), TRUNC(DBMS_RANDOM.VALUE(1,3)));
     END LOOP;
     COMMIT;
 END;

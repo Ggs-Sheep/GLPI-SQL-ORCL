@@ -1,4 +1,4 @@
-CREATE VIEW materiels_hors_garantie AS
+CREATE VIEW vue_materiels_hors_garantie AS
 SELECT *
 FROM MATERIEL
 WHERE date_garantie < ADD_MONTHS(SYSDATE, 2);
