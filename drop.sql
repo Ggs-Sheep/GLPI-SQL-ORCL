@@ -1,7 +1,5 @@
 alter session set "_ORACLE_SCRIPT"= true;
 
-DROP DATABASE LINK Pau_link2;
-
 BEGIN
     EXECUTE IMMEDIATE 'DROP USER Cergy CASCADE';
 EXCEPTION
